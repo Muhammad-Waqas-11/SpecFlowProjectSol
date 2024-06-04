@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .CalButton {
+            background: purple;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        /* Incorporate the provided styles and additional styles for layout */
+        .number-button {
+            background: #4CAF50; /* Green for number buttons */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .operator-button {
+            background: #FF5722; /* Orange for operator buttons */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .clear-button {
+            background: #f44336; /* Red for clear button */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .equal-button {
+            background: #009688; /* Teal for equal button */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .number-button:hover,
+            .operator-button:hover,
+            .clear-button:hover,
+            .equal-button:hover {
+                background-color: #007bff;
+            }
+
+        .calculator-container {
+            text-align: center; /* Center the calculator content */
+            margin: 2rem auto; /* Add some margin for better positioning */
+            width: 300px; /* Set a fixed width for the calculator */
+        }
+
+        .display-container {
+            margin-bottom: 1rem; /* Add some space between display and buttons */
+        }
+
+        .display {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.5rem;
+            text-align: right; /* Right-align the display for better readability */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .button-container {
+            display: flex; /* Arrange buttons in a grid layout */
+            flex-wrap: wrap; /* Allow buttons to wrap to multiple lines */
+            justify-content: space-between; /* Distribute buttons evenly */
+        }
+        .zero-button {
+            background: #673AB7; /* Purple for zero button */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .decimal-button {
+            background: #FFC107; /* Amber for decimal button */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+    </style>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+</head>
+<body>
+    <div class="calculator-container">
+        <h1>Calculator</h1>
+
+        <div class="display-container">
+            <input type="text" id="result" class="display">
+        </div>
+
+        <div class="button-container">
+            <button class="number-button">7</button>
+            <button class="number-button">8</button>
+            <button class="number-button">9</button>
+            <button class="operator-button" data-operator="/">/</button>
+            <br>
+
+            <button class="operator-button" data-operator="+">+</button>
+
+            <button class="number-button">5</button>
+            <button class="number-button">6</button>
+            <button class="number-button">4</button>
+
+            <br>
+
+            <button class="operator-button" data-operator="*">*</button>
+            <button class="operator-button" data-operator="-">-</button>
+            <button class="number-button">3</button>
+            <button class="number-button">2</button>
+
+            <br>
+
+            <button class="number-button">1</button>
+            <button class="number-button zero-button">0</button>
+            <button class="number-button decimal-button">.</button>
+            <button class="clear-button">C</button>
+            <br>
+
+            <button class="equal-button">=</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const result = document.getElementById('result');
+            const numberButtons = document.querySelectorAll('.number-button');
+            const operatorButtons = document.querySelectorAll('.operator-button');
+            const clearButton = document.querySelector('.clear-button');
+            const equalButton = document.querySelector('.equal-button');
+
+            let currentOperand = '';
+            let previousOperand = '';
+            let operator = null;
+
+            numberButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    appendNumber(button.textContent);
+                });
+            });
+
+            operatorButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    chooseOperator(button.dataset.operator);
+                });
+            });
+
+            clearButton.addEventListener('click', () => {
+                clear();
+            });
+
+            equalButton.addEventListener('click', () => {
+                calculate();
+                updateDisplay();
+            });
+
+            function appendNumber(number) {
+                if (number === '.' && currentOperand.includes('.')) return;
+                currentOperand = currentOperand.toString() + number.toString();
+                updateDisplay();
+            }
+
+            function chooseOperator(selectedOperator) {
+                if (currentOperand === '') return;
+                if (previousOperand !== '') {
+                    calculate();
+                }
+                operator = selectedOperator;
+                previousOperand = currentOperand;
+                currentOperand = '';
+                updateDisplay();  // Update display to show the chosen operator
+            }
+
+            function calculate() {
+                let computation;
+                const prev = parseFloat(previousOperand);
+                const current = parseFloat(currentOperand);
+                if (isNaN(prev) || isNaN(current)) return;
+                switch (operator) {
+                    case '+':
+                        computation = prev + current;
+                        break;
+                    case '-':
+                        computation = prev - current;
+                        break;
+                    case '*':
+                        computation = prev * current;
+                        break;
+                    case '/':
+                        computation = prev / current;
+                        break;
+                    default:
+                        return;
+                }
+                currentOperand = computation;
+                operator = null;
+                previousOperand = '';
+            }
+
+            function clear() {
+                currentOperand = '';
+                previousOperand = '';
+                operator = null;
+                updateDisplay();
+            }
+
+            function updateDisplay() {
+                if (operator != null) {
+                    result.value = `${previousOperand} ${operator} ${currentOperand}`;
+                } else {
+                    result.value = currentOperand;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

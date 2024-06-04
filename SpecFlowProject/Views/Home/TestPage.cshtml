@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .required {
+            color: red;
+        }
+
+        input[type="text"], input[type="date"], input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .error {
+            border-color: red;
+        }
+        #submitbtn {
+            background: purple;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        #submitbtn:hover{
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Form</h1>
+    <form method="post" action="~/Home/TestPage">
+        <p>This form can be used to submit your information.</p>
+        <label for="fullName">Full Name <span class="required">*</span></label>
+        <input type="text" id="fullName" name="fullName" required>  <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob">
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address">
+        <label for="phoneNumber">Phone Number <span class="required">*</span></label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" required>  <label for="occupation">Occupation:</label>
+        <input type="text" id="occupation" name="occupation">
+        <br>
+        <button type="submit" id="submitbtn">Submit</button>
+    </form>
+</body>
+</html>

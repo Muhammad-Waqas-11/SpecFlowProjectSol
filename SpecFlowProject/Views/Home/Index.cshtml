@@ -1,0 +1,41 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .welcome-button {
+            background: purple;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom : 10px;
+            
+        }
+            .welcome-button:hover {
+                background-color: #007bff;
+            }
+        .welcome-image {
+            max-width: 50%; /* Set max-width to 100% for responsiveness */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Specflow Testing!</h1>
+    <br />
+    <button class="welcome-button">Get Started</button>
+    <br />
+    <div class="image-container">
+        <img src="~/images/maxresdefault.jpg" class="welcome-image"  alt="Welcome Image" />
+    </div>
+
+    <script>
+        // Add click event listener to redirect on button click
+        document.querySelector('.welcome-button').addEventListener('click', function () {
+            window.location.href = '@Url.Action("TestPage", "Home")';  // Use Url helper for action URL
+        });
+    </script>
+</body>
+</html>
