@@ -54,7 +54,7 @@ namespace SpecFlowProject.Controllers
                 {
                     // Model validation failed, display errors
                     ViewBag.Message = "Please correct the errors in the form.";
-                    return View();
+                    return RedirectToAction("ErrorPage");
                 }
             }
 
@@ -63,6 +63,12 @@ namespace SpecFlowProject.Controllers
         }
 
         public ActionResult SuccessPage(string one)
+        {
+            // Initial GET request, return the view with an empty model
+            return View();
+        }
+
+        public ActionResult ErrorPage(string one)
         {
             // Initial GET request, return the view with an empty model
             return View();
